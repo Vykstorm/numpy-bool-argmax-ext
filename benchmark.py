@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     def bar():
         for a in arrays:
-            argmax(a)
+            argmax(a[::-1])
 
     def qux():
         for a in arrays:
