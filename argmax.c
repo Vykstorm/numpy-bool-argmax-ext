@@ -3,6 +3,8 @@
 #define PY_SSIZE_T_CLEAN
 #include<Python.h>
 #include<numpy/arrayobject.h>
+#include<emmintrin.h>
+
 
 
 static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
@@ -10,8 +12,6 @@ static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
     PyArrayObject *in;
     npy_bool *items;
     npy_intp n;
-
-    //PyArray_Descr* descr;
 
     // Only 1 argument accepted
     if(PyTuple_Size(args) != 1) {
@@ -50,9 +50,20 @@ static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
     // POSTCONDITION: i will index will point to an element with maximum value on the array
     // starting from the end (If all items are set to False, it will be 0)
 
-    npy_intp i;
+    npy_intp i = n-1;
 
-    for(i = n-1; i>0; i--) {
+#ifdef NPY_HAVE_SSE2_INTRINSICS
+    const __m128i zero = _mm_setzero_si128();
+    for(; i>n%32; i-=32) {
+        __m128i a = _mm_loadu_si128((__m128i*)&items[i-31]);
+        __m128i b = _mm_loadu_si128((__m128i*)&items[i-15]);
+        a = _mm_cmpeq_epi8(a, zero);
+        b = _mm_cmpeq_epi8(b, zero);
+        if (_mm_movemask_epi8(_mm_min_epu8(a, b)) != 0xFFFF)
+            break;
+    }
+#endif
+    for(; i>0; i--) {
         if(items[i])
             break;
     }
