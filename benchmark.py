@@ -1,0 +1,45 @@
+
+
+from timeit import timeit
+from numpy_bool_argmax_ext import reversed_bool_argmax as argmax
+import numpy as np
+
+
+
+'''
+a = np.random.randint(0, 2, 2 ** 20, np.bool)
+
+if __name__ == '__main__':
+    print("R")
+'''
+
+if __name__ == '__main__':
+    # Build m 1D arrays of size n with a random item set to True (the rest is False)
+    n, m = 2 ** 16, 2 ** 10
+    arrays = []
+    for i in range(m):
+        a = np.zeros([n], np.bool)
+        a[np.random.randint(0, n, 1, np.uint32)] = True
+        arrays.append(a)
+
+    print(f"Running benchmark over {m} boolean arrays of size {arrays[0].shape}...\n\n")
+
+    # Compare np.argmax(a[::-1]) with reversed_bool_argmax(a)
+    def foo():
+        for a in arrays:
+            np.argmax(a[::-1])
+
+    def bar():
+        for a in arrays:
+            argmax(a)
+
+    k = 100
+    print("Running np.argmax(a[::-1]) for each array...")
+    time = timeit(foo, number=k)
+    print("-> Average time: {:6f} msecs".format(1000 * time / (k * m)))
+    print()
+
+    print("-> Running reversed_bool_argmax(a) for each array...")
+    time = timeit(bar, number=k)
+    print("Average time: {:6f} msecs".format(1000 * time / (k * m)))
+    print()
