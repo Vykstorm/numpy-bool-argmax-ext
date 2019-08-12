@@ -1,14 +1,14 @@
 
 
 from timeit import timeit
-from numpy_bool_argmax_ext import reversed_bool_argmax as argmax
+from argmaxext import argmax
 import numpy as np
 
 
 
 if __name__ == '__main__':
     # Build m 1D arrays of size n with a random item set to True (the rest is False)
-    n, m = 2 ** 16, 2 ** 10
+    n, m = 2 ** 15, 2 ** 12
     arrays = []
     for i in range(m):
         a = np.zeros([n], np.bool)
