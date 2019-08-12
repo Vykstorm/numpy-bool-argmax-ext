@@ -6,7 +6,7 @@
 
 
 static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
-    PyObject *arg, *result;
+    PyObject *arg;
     PyArrayObject *in;
     npy_bool *items;
     npy_intp n;
@@ -25,26 +25,30 @@ static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
     // Convert the argument to a numpy array (contiguous and aligned in memory)
     in = (PyArrayObject*)PyArray_FromAny(arg, NULL, 0, 0,  NPY_ARRAY_IN_ARRAY, NULL);
 
-    // Only 1-dimensional arrays accepted
-    if(PyArray_NDIM(in) != 1) {
-        PyErr_SetString(PyExc_ValueError, "Only arrays with one dimension are valid");
+    // Only 1 or 0-dimensional arrays accepted
+    if(PyArray_NDIM(in) > 1) {
+        PyErr_SetString(PyExc_ValueError, "Only arrays with one or zero dimensions are valid");
         return NULL;
     }
 
     // Only boolean arrays accepted
     if(!PyTypeNum_ISBOOL(PyArray_TYPE(in))) {
-        PyErr_SetString(PyExc_ValueError, "Only boolean arrays are valid");
+        PyErr_SetString(PyExc_ValueError, "Only non empty boolean arrays are valid");
         return NULL;
+    }
+
+    // If array is 0 dimensional, return 0 directly
+    if(PyArray_NDIM(in) == 0) {
+        return PyLong_FromSize_t(0);
     }
 
     // Get the items of the array and its length
     items = (npy_bool*)PyArray_DATA(in);
     n = PyArray_DIM(in, 0);
 
-
     // Here is the algorithm.
-    // POSTCONDITION: i will index will point to an element with maxmium value on the array
-    // starting from the end
+    // POSTCONDITION: i will index will point to an element with maximum value on the array
+    // starting from the end (If all items are set to False, it will be 0)
 
     npy_intp i;
 
@@ -55,8 +59,7 @@ static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
     if(!(i>0 || items[0]))
         i = n-1;
 
-    result = PyLong_FromSize_t(i);
-    return result;
+    return PyLong_FromSize_t(i);
 }
 
 
