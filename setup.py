@@ -13,6 +13,9 @@ ext = Extension('numpy_bool_argmax_ext',
 setup(
     name='numpy-bool-argmax-ext',
     version='1.0.0',
+    author='Vykstorm',
+    author_email='victorruizgomezdev@gmail.com',
+    
     description='Additional helper methods to improve numpy.argmax performance for non-contiguous 1D boolean arrays',
     ext_modules=[ext],
     install_requires=['numpy'],
