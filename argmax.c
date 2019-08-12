@@ -7,6 +7,7 @@
 
 
 
+
 static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
     PyObject *arg;
     PyArrayObject *in;
@@ -52,7 +53,7 @@ static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
 
     npy_intp i = n-1;
 
-//#ifdef NPY_HAVE_SSE2_INTRINSICS
+#ifdef __SSE2__
     const __m128i zero = _mm_setzero_si128();
     for(; i>n%32; i-=32) {
         __m128i a = _mm_loadu_si128((__m128i*)&items[i-31]);
@@ -62,7 +63,7 @@ static PyObject* reversed_bool_argmax(PyObject* self, PyObject* args) {
         if (_mm_movemask_epi8(_mm_min_epu8(a, b)) != 0xFFFF)
             break;
     }
-//#endif
+#endif
     for(; i>0; i--) {
         if(items[i])
             break;
