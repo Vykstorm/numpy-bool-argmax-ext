@@ -82,7 +82,7 @@ static PyMethodDef methods[] = {
 static struct PyModuleDef module = {
     PyModuleDef_HEAD_INIT,
     "numpy_argmax_ext",
-    "Additional helper methods to improve numpy.argmax performance for non-contiguous 1D boolean arrays",
+    "Additional helper methods to improve numpy.argmax performance for 1D boolean arrays with inverted strides",
     -1,
     methods
 };

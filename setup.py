@@ -15,8 +15,8 @@ setup(
     version='1.0.0',
     author='Vykstorm',
     author_email='victorruizgomezdev@gmail.com',
-    
-    description='Additional helper methods to improve numpy.argmax performance for non-contiguous 1D boolean arrays',
+
+    description='Additional helper methods to improve numpy.argmax performance for 1D boolean arrays with inverted strides',
     ext_modules=[ext],
     install_requires=['numpy'],
     package_dir={'argmaxext': 'argmaxext'})
