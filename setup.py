@@ -18,5 +18,4 @@ setup(
 
     description='Additional helper methods to improve numpy.argmax performance for 1D boolean arrays with inverted strides',
     ext_modules=[ext],
-    install_requires=['numpy'],
     package_dir={'argmaxext': 'argmaxext'})
