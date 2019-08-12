@@ -14,6 +14,6 @@ def argmax(x, axis=None, out=None):
     '''
     x = np.asarray(x)
 
-    if x.dtype == np.bool and (x.ndim == 0 or (x.ndim == 1 and x.strides == (-1,))):
-        return len(x)-reversed_bool_argmax(x)-1
+    if x.dtype == np.bool and (x.ndim == 0 or (x.ndim == 1 and x.strides == (-1,))) and x.base is not None:
+        return len(x)-reversed_bool_argmax(x.base)-1
     return np.argmax(x, axis, out)
