@@ -16,6 +16,6 @@ setup(
     author='Vykstorm',
     author_email='victorruizgomezdev@gmail.com',
 
-    description='Additional helper methods to improve numpy.argmax performance for 1D boolean arrays with inverted strides',
+    description='Additional helper methods to improve numpy.argmax performance for 1D boolean arrays with stride -1',
     ext_modules=[ext],
     package_dir={'argmaxext': 'argmaxext'})
