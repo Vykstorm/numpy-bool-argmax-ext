@@ -44,8 +44,8 @@ class TestExtension(TestCase):
             self.assertEqual(n-1-argmax(a), np.argmax(a))
 
         # reversed_bool_argmax(a) returns 0 if a is a boolean scalar
-        self.assertTrue(reversed_bool_argmax(False), 0)
-        self.assertTrue(reversed_bool_argmax(True), 0)
+        self.assertEqual(argmax(False), 0)
+        self.assertEqual(argmax(True), 0)
 
 
 if __name__ == '__main__':
