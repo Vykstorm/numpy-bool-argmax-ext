@@ -3,7 +3,7 @@
 from timeit import timeit
 from argmaxext import argmax
 import numpy as np
-
+from numpy_bool_argmax_ext import bool_argmax
 
 
 if __name__ == '__main__':
@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     print(f"Running benchmark over {m} boolean arrays of size {arrays[0].shape}...\n\n")
 
-    # Compare np.argmax(a[::-1]) with reversed_bool_argmax(a)
+    # Compare np.argmax(a[::-1]) with bool_argmax(a[::-1])
     def foo():
         for a in arrays:
             np.argmax(a[::-1])
@@ -32,17 +32,21 @@ if __name__ == '__main__':
 
 
     k = 100
-    print("Running np.argmax(a)...")
+    print("np.argmax(a)...")
     time = timeit(qux, number=k)
     print("-> Average time: {:6f} msecs".format(1000 * time / (k * m)))
     print()
 
-    print("Running np.argmax(a[::-1])...")
-    time = timeit(foo, number=k)
-    print("-> Average time: {:6f} msecs".format(1000 * time / (k * m)))
-    print()
+    for s in (-1, 2, -2, 3, -3):
+        print("=" * 30)
+        print(f"stride = {s}")
 
-    print("-> Running reversed_bool_argmax(a)...")
-    time = timeit(bar, number=k)
-    print("Average time: {:6f} msecs".format(1000 * time / (k * m)))
-    print()
+        print(f"-> np.argmax(a[::{s}])...")
+        time = timeit(foo, number=k)
+        print("-> Average time: {:6f} msecs".format(1000 * time / (k * m)))
+        print()
+
+        print(f"-> argmax(a[::{s}])...")
+        time = timeit(bar, number=k)
+        print("Average time: {:6f} msecs".format(1000 * time / (k * m)))
+        print()
