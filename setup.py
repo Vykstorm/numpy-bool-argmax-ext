@@ -12,7 +12,7 @@ ext = Extension('numpy_bool_argmax_ext',
 
 setup(
     name='numpy-bool-argmax-ext',
-    version='1.0.0',
+    version='2.0.0',
     author='Vykstorm',
     author_email='victorruizgomezdev@gmail.com',
 
