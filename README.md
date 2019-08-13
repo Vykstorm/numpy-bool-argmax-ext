@@ -1,7 +1,7 @@
 
 ## Introduction
 
-This library provides an alternative to ```numpy.argmax``` to get the maximum value in a 1D boolean array with inverted stride (-1), without performing a copy of the input array, and thus increasing the performance
+This library provides an alternative to ```numpy.argmax``` to get the maximum value in a 1D boolean array with strides, without performing a copy of the input array, and thus increasing the performance
 
 
 ## Requirements
@@ -33,7 +33,7 @@ a = np.random.randint(0, 2, 10000, np.bool)
 print(argmax(a))
 ```
 
-Execute the next benchmark to compare both functions when dealing with boolean 1D arrays and -1 as stride value:
+Execute the next benchmark to compare both functions when dealing with boolean 1D arrays and -1 as stride value for example:
 
 ```python
 from timeit import timeit
