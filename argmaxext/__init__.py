@@ -20,7 +20,7 @@ def argmax(x, axis=None, out=None):
         return default_argmax()
 
     base, stride = x.base, x.strides[0]
-    if (base.size-1)//stride+1 != x.size:
+    if (base.size-1)//abs(stride)+1 != x.size:
         return default_argmax()
 
     k = bool_argmax(base, stride)
