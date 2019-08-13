@@ -8,6 +8,11 @@
 
 static npy_intp _bool_argmax(npy_bool* items, npy_intp n, npy_intp stride) {
     // Function invoked when the maximum value search must be performed forward
+
+    if(stride >= n) {
+        return 0;
+    }
+
     npy_intp i = 0;
 
     // Algorithm when stride value is 1 (we can apply SSE2 optimizations)
@@ -39,8 +44,14 @@ static npy_intp _bool_argmax(npy_bool* items, npy_intp n, npy_intp stride) {
     return 0;
 }
 
+
 static npy_intp _reversed_bool_argmax(npy_bool* items, npy_intp n, npy_intp stride) {
     // Function invoked when the maximum value search must be performed backwards
+
+    if(stride >= n) {
+        return n-1;
+    }
+
     npy_intp i = n-1;
 
     // Algorithm when stride value is 1 (we can apply SSE2 optimizations)
@@ -126,11 +137,6 @@ static PyObject* bool_argmax(PyObject* self, PyObject* args) {
     items = (npy_bool*)PyArray_DATA(in);
     n = PyArray_DIM(in, 0);
 
-    // The stride argument must be lower or equal than the number of items
-    if(stride > n || stride < -n) {
-        PyErr_SetString(PyExc_ValueError, "Stride value must be lower or equal than the number of items in the array");
-        return NULL;
-    }
 
     // Apply a different algorithm depending on the stride sign.
     if(stride > 0)
