@@ -1,7 +1,9 @@
 
 ## Introduction
 
-This library provides an alternative to ```numpy.argmax``` to get the maximum value in a 1D boolean array with strides, without performing a copy of the input array, and thus increasing the performance
+This library provides an alternative to ```numpy.argmax``` to get the maximum value in a 1D boolean array with strides, without performing a copy of the input array, and thus increasing the performance.
+
+The rationale is explained in this <a href="https://stackoverflow.com/questions/57346182/why-does-numpy-not-short-circuit-on-non-contiguous-arrays/57348030#57348030">stackoverflow question</a>
 
 
 ## Requirements
